@@ -9,26 +9,38 @@ def play_game():
 
     end_game = False
     score = 0
+    #To help reusing the last highest value
+    compare = random.choice(data)
+    against = random.choice(data)
 
-    def compare_values():
+
+    def compare_values(compare, against):
         #Compare the two follower counts
-        if compare['follower_count'] > against['follower_count']:
-            return "A"
+        #if compare['follower_count'] > against['follower_count']:
+        if compare > against:
+            return "a"
         else:
-            return "B"
+            compare = against
+            return "b"
 
     while not end_game:
         #Get random values from data.
-        compare = data[random.randint(0,len(data))]
-        against = data[random.randint(0,len(data))]
+        compare = against
+        #against = data[random.randint(0,len(data))]
+        against = random.choice(data)
+        
+        # check and correct if the values were the same.
+        while compare == against:
+            against = random.choice(data)
+
         print(f"Compare A: {compare['name']}, a {compare['description']}, from {compare['country']}.")
         print(vs)
         print(f"Against B: {against['name']}, a {against['description']}, from {against['country']}.")
 
-        answer = input("Who has more followers? Type 'A' or 'B': ")
+        answer = input("Who has more followers? Type 'A' or 'B': ").lower()
        
-
-        if answer == compare_values():
+        #Check to see if the the answer is correct
+        if answer == compare_values(compare['follower_count'],against['follower_count']):
             score += 1
             print(f"You're rignt! Current score: {score}. ")
         else:
